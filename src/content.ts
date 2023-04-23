@@ -3,6 +3,7 @@ import {
   parseConversation,
   getRequestCount,
   logProgress,
+  createProgressBar,
 } from "./conversation";
 import { downloadJson } from "./download";
 import { generateOffsets, sleep } from "./utils";
@@ -33,7 +34,7 @@ async function getAllConversations(startOffset: number, stopOffset: number) {
   console.log(`GPT-BACKUP::STARTING::TOTAL-OFFSETS::${lastOffset}`);
   console.log(`GPT-BACKUP::STARTING::REQUESTED-MESSAGES::${requested}`);
   console.log(`GPT-BACKUP::STARTING::TOTAL-MESSAGES::${total}`);
-
+  setStartingInfo(lastOffset, requested, total);
   for (const item of allItems) {
     await sleep(1000);
 
@@ -51,9 +52,32 @@ async function getAllConversations(startOffset: number, stopOffset: number) {
   return allConversations;
 }
 
+function setStartingInfo(
+  totalOffsets: number,
+  requestedMessages: number,
+  totalMessages: number
+): void {
+  const totalOffsetsText = document.getElementById(
+    "chatgpt-backup-total-offsets"
+  );
+  const requestedMessagesText = document.getElementById(
+    "chatgpt-backup-requested-messages"
+  );
+  const totalMessagesText = document.getElementById(
+    "chatgpt-backup-total-messages"
+  );
+
+  if (totalOffsetsText && requestedMessagesText && totalMessagesText) {
+    totalOffsetsText.textContent = `TOTAL OFFSETS: ${totalOffsets}`;
+    requestedMessagesText.textContent = `REQUESTED MESSAGES: ${requestedMessages}`;
+    totalMessagesText.textContent = `TOTAL MESSAGES: ${totalMessages}`;
+  }
+}
 async function main(startOffset: number, stopOffset: number) {
+  const progressBarContainer = createProgressBar();
   const allConversations = await getAllConversations(startOffset, stopOffset);
   await downloadJson(allConversations);
+  document.body.removeChild(progressBarContainer);
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

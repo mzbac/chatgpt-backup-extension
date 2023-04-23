@@ -21,11 +21,13 @@ This Chrome extension allows you to download all your ChatGPT conversations in a
 
 ## Checking Progress
 
-You can monitor the progress of the backup process by opening the browser's developer console. To do this:
+You can monitor the progress of the backup process directly on the ChatGPT page. A progress bar with relevant information will be displayed at the bottom right corner of the page, updating in real-time as the backup process progresses.
 
-1. Right-click anywhere on the page and select "Inspect" or press `Ctrl + Shift + I` (Windows/Linux) or `Cmd + Opt + I` (Mac).
-2. Click on the "Console" tab in the developer tools panel.
-3. You should see the progress messages like the following:
+Additionally, you can still check the progress in the browser's developer console. To do this:
+
+Right-click anywhere on the page and select "Inspect" or press Ctrl + Shift + I (Windows/Linux) or Cmd + Opt + I (Mac).
+Click on the "Console" tab in the developer tools panel.
+You should see the progress messages like the following:
 
 ```plaintext
 GPT-BACKUP::STARTING::TOTAL-OFFSETS::60
@@ -37,4 +39,4 @@ GPT-BACKUP::PROGRESS::60%::OFFSET::60
 GPT-BACKUP::DONE
 ```
 
-4. The progress messages will update periodically, and you can track the download's progress in real-time.
+Both the progress bar on the page and the console messages will keep you informed about the status of the backup process.
